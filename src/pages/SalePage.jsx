@@ -12,8 +12,8 @@ const SalePage = () => {
 
   const navigate = useNavigate();
   const [sale, setSale] = useState([]);
-  let domain = "http://localhost:1337/";
-  let endpoint = "api/sales?populate=*";
+  let domain = import.meta.env.NEXT_PUBLIC_STRAPI_API_URL;
+  let endpoint = "/api/sales?populate=*";
   let url = domain + endpoint;
   useEffect(() => {
     axios
@@ -70,7 +70,7 @@ const SalePage = () => {
               >
                 <div className="flex justify-center items-center">
                   <img
-                    src={"http://localhost:1337" + el.img?.url}
+                    src={domain + el.img?.url}
                     alt={el.name}
                     className="w-35 h-50"
                   />
