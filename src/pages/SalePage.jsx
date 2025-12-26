@@ -12,7 +12,7 @@ const SalePage = () => {
 
   const navigate = useNavigate();
   const [sale, setSale] = useState([]);
-  let domain = import.meta.env.NEXT_PUBLIC_STRAPI_API_URL;
+  let domain = import.meta.env.VITE_API_URL;
   let endpoint = "/api/sales?populate=*";
   let url = domain + endpoint;
   useEffect(() => {

@@ -10,7 +10,7 @@ const AllProductsPage = () => {
   const { openCart } = cartIndex();
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
-  let domain = import.meta.env.NEXT_PUBLIC_STRAPI_API_URL;
+  let domain = import.meta.env.VITE_API_URL;
   let endpoint = "/api/products?populate=*";
   let url = domain + endpoint;
   useEffect(() => {
