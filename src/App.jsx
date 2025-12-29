@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast";
 import CartPage from "./pages/CartPage";
 import { cartIndex } from "./store";
 import Page404 from "./pages/Page404";
-import ShippingInfo from "./components/ShippingInfo";
+import Favorites from "./components/Favorites";
 function App() {
   const { value } = cartIndex();
   return (
@@ -35,7 +35,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
 
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/shipping" element={<ShippingInfo />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
         <Footer />

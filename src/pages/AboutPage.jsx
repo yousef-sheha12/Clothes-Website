@@ -1,6 +1,6 @@
-import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+
 const AboutPage = () => {
   return (
     <div className="w-full h-vh animate__animated animate__fadeInLeft animate__fadeInLeft">

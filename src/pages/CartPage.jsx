@@ -1,7 +1,7 @@
 // import React, { useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { cartIndex } from "../store";
-import { useCartStore } from "../store";
+import { useCartStore, domain } from "../store";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 
@@ -48,7 +48,7 @@ const CartPage = () => {
               >
                 <div className="flex gap-3 items-center">
                   <img
-                    src={"http://localhost:1337" + item.img?.url}
+                    src={domain + item.img?.url}
                     alt={item.name}
                     className="w-20 h-20 object-contain"
                   />

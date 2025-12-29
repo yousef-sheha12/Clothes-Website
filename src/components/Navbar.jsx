@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BiCartAdd } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import { FaInstagram } from "react-icons/fa6";
+import { FaInstagram, FaRegHeart } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
 import { cartIndex, useCartStore } from "../store";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const { openCart } = cartIndex();
   const cartCount = useCartStore((state) => state.cartCount());
@@ -45,6 +47,11 @@ const Navbar = () => {
               className="cursor-pointer"
               size={30}
               onClick={openCart}
+            />
+            <FaRegHeart
+              className="cursor-pointer"
+              size={30}
+              onClick={() => navigate("/favorites")}
             />
             {cartCount > 0 && (
               <span className="absolute top-2 right-25 md:right-27 lg:right-43 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">

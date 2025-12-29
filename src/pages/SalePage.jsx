@@ -1,18 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoZap } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
-import { cartIndex, useCartStore } from "../store";
+import { cartIndex, useCartStore, domain } from "../store";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useFavoriteStore } from "../store";
 
 const SalePage = () => {
   const addToCart = useCartStore((state) => state.addToCart);
   const { openCart } = cartIndex();
 
-  const navigate = useNavigate();
+  const { favorites, toggleFavorite, addToFav, removeFromFav } =
+    useFavoriteStore();
+
   const [sale, setSale] = useState([]);
-  let domain = import.meta.env.VITE_API_URL;
   let endpoint = "/api/sales?populate=*";
   let url = domain + endpoint;
   useEffect(() => {
@@ -24,6 +26,7 @@ const SalePage = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <div id="sale" className="w-full h-full lg:h-[90%]">
       <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white py-13">
@@ -63,49 +66,68 @@ const SalePage = () => {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {sale?.map((el) => (
-              <div
-                key={el.documentId}
-                className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-3 rounded-2xl w-55 h-120 md:w-60 md:h-125 lg:w-68"
-              >
-                <div className="flex justify-center items-center">
-                  <img
-                    src={domain + el.img?.url}
-                    alt={el.name}
-                    className="w-35 h-50"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground h-10 md:h-12 overflow-hidden">
-                    {el.description}
-                  </p>
-                  <h1 className="font-medium mb-2 line-clamp-2">{el.name}</h1>
-                  <div className="flex items-center gap-2 mb-3 h-10 md:h-12">
-                    <p className="text-lg font-bold text-red-600">
-                      New Price :{el.newPrice} EGP
+            {sale?.map((el) => {
+              const isFav = favorites.includes(el.documentId);
+              return (
+                <div
+                  key={el.documentId}
+                  className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-3 rounded-2xl w-55 h-120 md:w-60 md:h-115 lg:w-68"
+                >
+                  <div className="flex justify-center items-center">
+                    <img
+                      src={domain + el.img?.url}
+                      alt={el.name}
+                      className="w-35 h-50"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground h-10 md:h-12 overflow-hidden">
+                      {el.description}
                     </p>
-                    <span className="text-sm text-muted-foreground line-through">
-                      {el.oldPrice} EGP
-                    </span>
+                    <h1 className="font-medium mb-2 line-clamp-2">{el.name}</h1>
+                    <div className="flex items-center gap-2 mb-3 h-10 md:h-12">
+                      <p className="text-lg font-bold text-red-600">
+                        New Price :{el.newPrice} EGP
+                      </p>
+                      <span className="text-sm text-muted-foreground line-through">
+                        {el.oldPrice} EGP
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex w-full gap-4 justify-center">
+                    <button
+                      className="btn bg-red-500 border-none hover:bg-red-700"
+                      onClick={() => {
+                        addToCart(el);
+                        openCart();
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                    <button
+                      className="btn bg-gradient-to-r from-blue-600 to-purple-600 border-none hover:bg-red-600"
+                      onClick={() => toggleFavorite(el.documentId)}
+                    >
+                      {isFav ? (
+                        <FaHeart
+                          onClick={() => {
+                            addToFav();
+                          }}
+                          className="text-white text-xl"
+                        />
+                      ) : (
+                        <FaRegHeart
+                          onClick={() => {
+                            removeFromFav();
+                          }}
+                          className="text-white text-xl"
+                        />
+                      )}
+                    </button>
                   </div>
                 </div>
-                <button
-                  className="btn bg-red-500 border-none hover:bg-red-700"
-                  onClick={() => {
-                    addToCart(el);
-                    openCart();
-                  }}
-                >
-                  Add To Cart
-                </button>
-                <button
-                  className="btn bg-gradient-to-r from-blue-600 to-purple-600 border-none hover:bg-red-600"
-                  onClick={() => navigate("/shipping")}
-                >
-                  Buy Now
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
