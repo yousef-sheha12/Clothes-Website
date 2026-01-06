@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const HomePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="w-full bg-gradient-to-r from-blue-600 to-purple-600 h-full lg:h-[90%]">
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-5 text-white w-[85%]">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-5 text-white w-[95%]">
         <div className="">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold w-80 md:w-100 lg:w-120 my-15 animate__animated animate__fadeInUp animate__fadeInUpBig">
             Latest Fashion <span className="text-yellow-300">Trends</span>

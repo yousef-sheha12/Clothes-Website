@@ -1,7 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const AboutPage = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   return (
     <div className="w-full h-vh animate__animated animate__fadeInLeft animate__fadeInLeft">
       <motion.div

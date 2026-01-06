@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <div className="w-full h-vh bg-gray-900 text-white">
-      <div className=" flex justify-between gap-10 items-center p-5 px-10 overflow-auto">
+    <div className="w-full h-vh bg-gray-900 text-white  mt-10 flex flex-col gap-10">
+      <div className=" flex flex-col md:flex-row  justify-between gap-10 items-center p-5 px-10 overflow-auto">
         <div className="logo">
           <Link to="/" className="text-3xl flex items-end gap-3 font-bold">
             Falcon
@@ -22,28 +22,29 @@ const Footer = () => {
             Quality fashion for everyone.
           </p>
         </div>
-        <div className=" flex flex-col gap-6 md:gap-6 lg:gap-8 font-semibold md:flex-row">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact Us</Link>
-        </div>
-        <div className="flex flex-col gap-6 md:gap-6 lg:gap-8 font-semibold md:flex-row">
-          <a href="#sale">Sale</a>
-          <a href="#collection">View All Collection</a>
+        <div className="flex gap-6 text-center md:flex">
+          <div className=" flex md:flex gap-6 md:gap-6 lg:gap-8 font-semibold ">
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact Us</Link>
+          </div>
+          <div className="flex md:flex gap-6 md:gap-6 lg:gap-8 font-semibold ">
+            <a href="#sale">Sale</a>
+            <a href="#collection"> All Collection</a>
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center gap-3 p-3">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
             repeat: Infinity,
             ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
           }}
         >
           <div className="bg-white rounded-full p-2">
             <Link to="">
-              {" "}
               <FaInstagram size={20} className="text-black cursor-pointer" />
             </Link>
           </div>
@@ -51,7 +52,7 @@ const Footer = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
             repeat: Infinity,
             ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
           }}
@@ -68,7 +69,7 @@ const Footer = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
             repeat: Infinity,
             ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
           }}

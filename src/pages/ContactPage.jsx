@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
@@ -12,6 +12,9 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const ContactPage = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   const handleSubmit = () => {
     toast.success("success,your message sent");
   };

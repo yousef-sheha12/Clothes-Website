@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export const domain = "http://localhost:1337";
 
@@ -12,124 +13,116 @@ export const cartIndex = create((set) => ({
 
 // store/cartStore.js
 
-export const useCartStore = create((set, get) => ({
-  cart: [],
+export const useCartStore = create(
+  persist(
+    (set, get) => ({
+      cart: [],
 
-  addToCart: (product) => {
-    const exists = get().cart.find((i) => i.id === product.documentId);
+      addToCart: (product) => {
+        const exists = get().cart.find((i) => i.id === product.documentId);
 
-    if (exists) {
-      set({
-        cart: get().cart.map((item) =>
-          item.id === product.documentId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ),
-      });
-    } else {
-      set({
-        cart: [
-          ...get().cart,
-          {
-            id: product.documentId,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            newPrice: product.newPrice,
-            img: product.img,
-            quantity: 1,
-          },
-        ],
-      });
+        if (exists) {
+          set({
+            cart: get().cart.map((item) =>
+              item.id === product.documentId
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ),
+          });
+        } else {
+          set({
+            cart: [
+              ...get().cart,
+              {
+                id: product.documentId,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                newPrice: product.newPrice,
+                img: product.img,
+                quantity: 1,
+              },
+            ],
+          });
+        }
+      },
+
+      increaseQty: (id) =>
+        set({
+          cart: get().cart.map((item) =>
+            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+          ),
+        }),
+
+      decreaseQty: (id) =>
+        set({
+          cart: get()
+            .cart.map((item) =>
+              item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+            )
+            .filter((item) => item.quantity > 0),
+        }),
+
+      removeFromCart: (id) =>
+        set({
+          cart: get().cart.filter((item) => item.id !== id),
+        }),
+
+      cartCount: () =>
+        get().cart.reduce((total, item) => total + item.quantity, 0),
+    }),
+    {
+      name: "cart-storage",
     }
-  },
+  )
+);
 
-  increaseQty: (id) =>
-    set({
-      cart: get().cart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      ),
+export const useFavoriteStore = create(
+  persist(
+    (set, get) => ({
+      favorites: [],
+
+      // تعديل وظيفة التبديل لتخزين الكائن بالكامل
+      toggleFavorite: (product) => {
+        const currentFavs = get().favorites;
+        const isExist = currentFavs.find(
+          (item) => item.id === product.documentId
+        );
+
+        if (isExist) {
+          set({
+            favorites: currentFavs.filter(
+              (item) => item.id !== product.documentId
+            ),
+          });
+        } else {
+          set({
+            favorites: [
+              ...currentFavs,
+              {
+                id: product.documentId,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                newPrice: product.newPrice,
+                img: product.img,
+              },
+            ],
+          });
+        }
+      },
+
+      removeFromFav: (id) =>
+        set({
+          favorites: get().favorites.filter((item) => item.id !== id),
+        }),
+
+      favCount: () => get().favorites.length,
     }),
-
-  decreaseQty: (id) =>
-    set({
-      cart: get()
-        .cart.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
-        .filter((item) => item.quantity > 0),
-    }),
-
-  removeFromCart: (id) =>
-    set({
-      cart: get().cart.filter((item) => item.id !== id),
-    }),
-
-  cartCount: () => get().cart.reduce((total, item) => total + item.quantity, 0),
-}));
-
-export const useFavoriteStore = create((set, get) => ({
-  favorites: [],
-
-  addToFav: (product) => {
-    const exists = get().favorites.find((i) => i.id === product.documentId);
-
-    if (exists) {
-      set({
-        favorites: get().favorites.map((item) =>
-          item.id === product.documentId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ),
-      });
-    } else {
-      set({
-        favorites: [
-          ...get().favorites,
-          {
-            id: product.documentId,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            newPrice: product.newPrice,
-            img: product.img,
-            quantity: 1,
-          },
-        ],
-      });
+    {
+      name: "favorites-storage",
     }
-  },
-
-  increaseQty: (id) =>
-    set({
-      favorites: get().favorites.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      ),
-    }),
-
-  decreaseQty: (id) =>
-    set({
-      favorites: get()
-        .favorites.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
-        .filter((item) => item.quantity > 0),
-    }),
-
-  removeFromFav: (id) =>
-    set({
-      favorites: get().favorites.filter((item) => item.id !== id),
-    }),
-
-  favCount: () =>
-    get().favorites.reduce((total, item) => total + item.quantity, 0),
-
-  toggleFavorite: (id) =>
-    set((state) => ({
-      favorites: state.favorites.includes(id)
-        ? state.favorites.filter((item) => item !== id)
-        : [...state.favorites, id],
-    })),
-}));
+  )
+);
 
 // export default useFavoriteStore;

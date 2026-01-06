@@ -11,9 +11,12 @@ import CartPage from "./pages/CartPage";
 import { cartIndex } from "./store";
 import Page404 from "./pages/Page404";
 import Favorites from "./components/Favorites";
+// import { div } from "framer-motion/client";
 function App() {
   const { value } = cartIndex();
+  
   return (
+    <div>
     <BrowserRouter>
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full h-vh bg-white text-black">
@@ -41,6 +44,7 @@ function App() {
         <Footer />
       </div>
     </BrowserRouter>
+    </div>
   );
 }
 

@@ -2,15 +2,12 @@
 import { IoMdClose } from "react-icons/io";
 import { cartIndex } from "../store";
 import { useCartStore, domain } from "../store";
-import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 
 const CartPage = () => {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useCartStore();
 
   const { closeCart } = cartIndex();
-
-  const navigate = useNavigate();
 
   // let domain = "http://localhost:1337/";
   // let endpoint = "api/products?populate=*";
@@ -86,15 +83,6 @@ const CartPage = () => {
                     onClick={() => decreaseQty(item.id)}
                   >
                     -
-                  </button>
-                  <button
-                    className=" btn btn-primary"
-                    onClick={() => {
-                      navigate("/shipping");
-                      closeCart();
-                    }}
-                  >
-                    Buy
                   </button>
                 </div>
               </div>

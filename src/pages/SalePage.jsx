@@ -6,13 +6,17 @@ import { cartIndex, useCartStore, domain } from "../store";
 import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useFavoriteStore } from "../store";
+import toast from "react-hot-toast";
 
 const SalePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const addToCart = useCartStore((state) => state.addToCart);
   const { openCart } = cartIndex();
 
-  const { favorites, toggleFavorite, addToFav, removeFromFav } =
-    useFavoriteStore();
+  const addToFav = useFavoriteStore((state) => state.addToFav);
+  const { favorites, toggleFavorite, removeFromFav } = useFavoriteStore();
 
   const [sale, setSale] = useState([]);
   let endpoint = "/api/sales?populate=*";
@@ -67,11 +71,11 @@ const SalePage = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {sale?.map((el) => {
-              const isFav = favorites.includes(el.documentId);
+              const isFav = favorites.find((f) => f.id === el.documentId);
               return (
                 <div
                   key={el.documentId}
-                  className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-3 rounded-2xl w-55 h-120 md:w-60 md:h-115 lg:w-68"
+                  className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-3  rounded-2xl md:w-60 md:h-115 lg:w-68"
                 >
                   <div className="flex justify-center items-center">
                     <img
@@ -80,25 +84,26 @@ const SalePage = () => {
                       className="w-35 h-50"
                     />
                   </div>
-                  <div>
+                  <div className="">
                     <p className="text-sm text-muted-foreground h-10 md:h-12 overflow-hidden">
                       {el.description}
                     </p>
                     <h1 className="font-medium mb-2 line-clamp-2">{el.name}</h1>
-                    <div className="flex items-center gap-2 mb-3 h-10 md:h-12">
+                    <div className="flex flex-col md:flex-row items-center md:gap-2 mb-3 h-10 md:h-12">
                       <p className="text-lg font-bold text-red-600">
                         New Price :{el.newPrice} EGP
                       </p>
-                      <span className="text-sm text-muted-foreground line-through">
+                      <span className=" text-sm text-muted-foreground line-through">
                         {el.oldPrice} EGP
                       </span>
                     </div>
                   </div>
-                  <div className="flex w-full gap-4 justify-center">
+                  <div className="flex flex-col md:flex-row w-full gap-3 justify-center mt-5">
                     <button
                       className="btn bg-red-500 border-none hover:bg-red-700"
                       onClick={() => {
                         addToCart(el);
+                        toast.success("Added to cart");
                         openCart();
                       }}
                     >
@@ -106,19 +111,22 @@ const SalePage = () => {
                     </button>
                     <button
                       className="btn bg-gradient-to-r from-blue-600 to-purple-600 border-none hover:bg-red-600"
-                      onClick={() => toggleFavorite(el.documentId)}
+                      onClick={() => {
+                        toggleFavorite(el);
+                        toast.success("Favorite updated");
+                      }}
                     >
                       {isFav ? (
                         <FaHeart
                           onClick={() => {
-                            addToFav();
+                            addToFav(el);
                           }}
                           className="text-white text-xl"
                         />
                       ) : (
                         <FaRegHeart
                           onClick={() => {
-                            removeFromFav();
+                            removeFromFav(el);
                           }}
                           className="text-white text-xl"
                         />

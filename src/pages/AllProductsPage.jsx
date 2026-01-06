@@ -5,8 +5,13 @@ import { cartIndex, useCartStore, domain } from "../store";
 import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useFavoriteStore } from "../store";
+import toast from "react-hot-toast";
 
 const AllProductsPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const addToCart = useCartStore((state) => state.addToCart);
   const { openCart } = cartIndex();
 
@@ -40,7 +45,7 @@ const AllProductsPage = () => {
           </h1>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {product?.map((el) => {
-              const isFav = favorites.includes(el.documentId);
+              const isFav = favorites.find((f) => f.id === el.documentId);
               return (
                 <div
                   key={el.documentId}
@@ -64,11 +69,12 @@ const AllProductsPage = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex w-full gap-4 justify-center">
+                  <div className="flex md:flex-row flex-col w-full gap-4 justify-center">
                     <button
                       className="btn bg-black hover:bg-gray-900"
                       onClick={() => {
                         addToCart(el);
+                        toast.success("Added to cart");
                         openCart();
                       }}
                     >
@@ -76,7 +82,10 @@ const AllProductsPage = () => {
                     </button>
                     <button
                       className="btn bg-gradient-to-r from-blue-600 to-purple-600 border-none"
-                      onClick={() => toggleFavorite(el.documentId)}
+                      onClick={() => {
+                        toast.success("Favorite updated");
+                        toggleFavorite(el);
+                      }}
                     >
                       {isFav ? (
                         <FaHeart className="text-white text-xl" />

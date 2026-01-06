@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaInstagram, FaRegHeart } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
-import { cartIndex, useCartStore } from "../store";
+import { cartIndex, useCartStore, useFavoriteStore } from "../store";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const { openCart } = cartIndex();
   const cartCount = useCartStore((state) => state.cartCount());
+  const favCount = useFavoriteStore((state) => state.favCount());
 
   // منع الاسكرول و المينيو مفتوحة
   useEffect(() => {
@@ -48,13 +49,18 @@ const Navbar = () => {
               size={30}
               onClick={openCart}
             />
+            {favCount > 0 && (
+              <span className="absolute top-2 right-22 md:right-24 lg:right-45 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {favCount}
+              </span>
+            )}
             <FaRegHeart
               className="cursor-pointer"
               size={30}
               onClick={() => navigate("/favorites")}
             />
             {cartCount > 0 && (
-              <span className="absolute top-2 right-25 md:right-27 lg:right-43 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="absolute top-2 right-34 md:right-35 lg:right-57 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
@@ -113,7 +119,7 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
                   repeat: Infinity,
                   ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
                 }}
@@ -131,7 +137,7 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
                   repeat: Infinity,
                   ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
                 }}
@@ -148,7 +154,7 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 2, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
                   repeat: Infinity,
                   ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
                 }}
