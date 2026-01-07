@@ -7,17 +7,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaInstagram, FaRegHeart } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
-import { cartIndex, useCartStore, useFavoriteStore } from "../store";
+import { useCartStore, useFavoriteStore } from "../store";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
-  const { openCart } = cartIndex();
   const cartCount = useCartStore((state) => state.cartCount());
   const favCount = useFavoriteStore((state) => state.favCount());
 
-  // منع الاسكرول و المينيو مفتوحة
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
   }, [open]);
@@ -47,7 +45,7 @@ const Navbar = () => {
             <BiCartAdd
               className="cursor-pointer"
               size={30}
-              onClick={openCart}
+              onClick={() => navigate("/cart")}
             />
             {favCount > 0 && (
               <span className="absolute top-2 right-22 md:right-24 lg:right-45 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -119,9 +117,9 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3,
                   repeat: Infinity,
-                  ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+                  ease: "linear",
                 }}
               >
                 <div className="bg-white rounded-full p-2">
@@ -137,9 +135,9 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3,
                   repeat: Infinity,
-                  ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+                  ease: "linear",
                 }}
               >
                 <div className="bg-white rounded-full p-2">
@@ -154,9 +152,9 @@ const Navbar = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+                  duration: 3,
                   repeat: Infinity,
-                  ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+                  ease: "linear",
                 }}
               >
                 <div className="bg-white rounded-full p-2 ">

@@ -8,42 +8,40 @@ import ContactPage from "./pages/ContactPage";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import CartPage from "./pages/CartPage";
-import { cartIndex } from "./store";
+
 import Page404 from "./pages/Page404";
 import Favorites from "./components/Favorites";
-// import { div } from "framer-motion/client";
+
 function App() {
-  const { value } = cartIndex();
-  
   return (
     <div>
-    <BrowserRouter>
-      <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full h-vh bg-white text-black">
-        {value && <CartPage />}
-        <Navbar />
+      <BrowserRouter>
+        <Toaster position="top-center" reverseOrder={false} />
+        <div className="w-full h-vh bg-white text-black">
+          <Navbar />
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <HomePage />
-                <SalePage />
-                <AllProductsPage />
-              </>
-            }
-          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <HomePage />
+                  <SalePage />
+                  <AllProductsPage />
+                </>
+              }
+            />
 
-          <Route path="/about" element={<AboutPage />} />
+            <Route path="/about" element={<AboutPage />} />
 
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="*" element={<Page404 />} />
+          </Routes>
+          <Footer />
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

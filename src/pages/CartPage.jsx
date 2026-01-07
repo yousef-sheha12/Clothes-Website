@@ -1,39 +1,17 @@
-// import React, { useEffect } from "react";
-import { IoMdClose } from "react-icons/io";
-import { cartIndex } from "../store";
+import { useEffect } from "react";
 import { useCartStore, domain } from "../store";
-// import axios from "axios";
 
 const CartPage = () => {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useCartStore();
 
-  const { closeCart } = cartIndex();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  // let domain = "http://localhost:1337/";
-  // let endpoint = "api/products?populate=*";
-  // let url = domain + endpoint;
-  // useEffect(() => {
-  //   axios
-  //     .get(url)
-  //     .then((res) => {
-  //       cart(res.data.data);
-  //       console.log(res.data.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
   return (
-    <div
-      className="w-full h-dvh bg-black/70 fixed top-16 left-0 z-50 "
-      onClick={closeCart}
-    >
-      <div
-        className="w-[300px] overflow-auto  h-full shadow bg-white border-l absolute right-0 flex flex-col p-4 text-black"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">Cart</h1>
-          <IoMdClose onClick={closeCart} className="text-2xl cursor-pointer" />
-        </div>
+    <div className="w-full min-h-screen bg-white text-black p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-5">Cart</h1>
         <div className="w-full mt-5  ">
           {cart.length === 0 ? (
             <p className="flex justify-center text-red-500">Cart is empty</p>

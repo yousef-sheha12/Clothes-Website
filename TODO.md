@@ -1,0 +1,4 @@
+- [x] Modify CartPage.jsx to remove modal styling and make it a full-page component
+- [x] Add a new route '/cart' in App.jsx for the cart page
+- [x] Update Navbar.jsx to navigate to '/cart' instead of opening the modal
+- [x] Remove the conditional rendering of CartPage in App.jsx

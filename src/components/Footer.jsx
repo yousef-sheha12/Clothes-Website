@@ -38,9 +38,9 @@ const Footer = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3,
             repeat: Infinity,
-            ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+            ease: "linear",
           }}
         >
           <div className="bg-white rounded-full p-2">
@@ -52,9 +52,9 @@ const Footer = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3,
             repeat: Infinity,
-            ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+            ease: "linear",
           }}
         >
           <div className="bg-white rounded-full p-2">
@@ -69,9 +69,9 @@ const Footer = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{
-            duration: 3, // السرعة: كل ما قل الرقم، اللفة بقت أسرع
+            duration: 3,
             repeat: Infinity,
-            ease: "linear", // مهم جداً عشان اللفة تكون مستمرة ومنتظمة بدون توقف مفاجئ
+            ease: "linear",
           }}
         >
           <div className="bg-white rounded-full p-2 ">

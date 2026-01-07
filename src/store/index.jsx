@@ -124,5 +124,3 @@ export const useFavoriteStore = create(
     }
   )
 );
-
-// export default useFavoriteStore;
