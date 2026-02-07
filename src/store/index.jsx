@@ -26,7 +26,7 @@ export const useCartStore = create(
             cart: get().cart.map((item) =>
               item.id === product.documentId
                 ? { ...item, quantity: item.quantity + 1 }
-                : item
+                : item,
             ),
           });
         } else {
@@ -50,7 +50,7 @@ export const useCartStore = create(
       increaseQty: (id) =>
         set({
           cart: get().cart.map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
           ),
         }),
 
@@ -58,7 +58,7 @@ export const useCartStore = create(
         set({
           cart: get()
             .cart.map((item) =>
-              item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+              item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
             )
             .filter((item) => item.quantity > 0),
         }),
@@ -73,8 +73,8 @@ export const useCartStore = create(
     }),
     {
       name: "cart-storage",
-    }
-  )
+    },
+  ),
 );
 
 export const useFavoriteStore = create(
@@ -82,17 +82,16 @@ export const useFavoriteStore = create(
     (set, get) => ({
       favorites: [],
 
-      // تعديل وظيفة التبديل لتخزين الكائن بالكامل
       toggleFavorite: (product) => {
         const currentFavs = get().favorites;
         const isExist = currentFavs.find(
-          (item) => item.id === product.documentId
+          (item) => item.id === product.documentId,
         );
 
         if (isExist) {
           set({
             favorites: currentFavs.filter(
-              (item) => item.id !== product.documentId
+              (item) => item.id !== product.documentId,
             ),
           });
         } else {
@@ -121,6 +120,6 @@ export const useFavoriteStore = create(
     }),
     {
       name: "favorites-storage",
-    }
-  )
+    },
+  ),
 );

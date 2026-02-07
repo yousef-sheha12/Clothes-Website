@@ -33,7 +33,6 @@ function App() {
             />
 
             <Route path="/about" element={<AboutPage />} />
-
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/cart" element={<CartPage />} />

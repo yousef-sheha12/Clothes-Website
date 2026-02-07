@@ -74,7 +74,7 @@ const Favorites = () => {
                       onClick={() => removeFromFav(item.id)}
                       className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-colors shadow-sm"
                     >
-                      <FaTrash size={16} />
+                      <FaTrash size={16} className="cursor-pointer" />
                     </button>
                   </div>
 
@@ -104,7 +104,7 @@ const Favorites = () => {
                           addToCart(
                             item.documentId
                               ? item
-                              : { ...item, documentId: item.id }
+                              : { ...item, documentId: item.id },
                           );
                           openCart();
                         }}

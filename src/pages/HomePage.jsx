@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const HomePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    toast.success("Home Page");
   }, []);
   return (
     <div className="w-full bg-gradient-to-r from-blue-600 to-purple-600 h-full lg:h-[90%]">

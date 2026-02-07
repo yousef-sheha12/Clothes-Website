@@ -9,7 +9,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
 import { useCartStore, useFavoriteStore } from "../store";
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [openModle, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,8 +17,8 @@ const Navbar = () => {
   const favCount = useFavoriteStore((state) => state.favCount());
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "auto";
-  }, [open]);
+    document.body.style.overflow = openModle ? "hidden" : "auto";
+  }, [openModle]);
 
   return (
     <>
@@ -75,7 +75,7 @@ const Navbar = () => {
 
       {/* ===== Full Screen Menu ===== */}
       <AnimatePresence>
-        {open && (
+        {openModle && (
           <motion.div
             initial={{ y: "-100%" }}
             animate={{ y: 0 }}

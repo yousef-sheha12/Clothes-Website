@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Page404 = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.error("Error ,This Destination Not Found");
+  }, []);
   return (
     <div className="w-full h-dvh justify-center items-center mt-40 text-2xl text-center animate__animated animate__fadeInUp animate__fadeInUpBig animate__delay-1s">
       <p className="font-bold text-4xl">404</p>

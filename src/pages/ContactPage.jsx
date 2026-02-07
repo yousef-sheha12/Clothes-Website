@@ -12,9 +12,10 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const ContactPage = () => {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.success("Contact Page");
+  }, []);
   const handleSubmit = () => {
     toast.success("success,your message sent");
   };

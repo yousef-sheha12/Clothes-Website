@@ -1,11 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const AboutPage = () => {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.success("About Page");
+  }, []);
   return (
     <div className="w-full h-vh animate__animated animate__fadeInLeft animate__fadeInLeft">
       <motion.div
