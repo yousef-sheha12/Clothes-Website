@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useCartStore, domain } from "../store";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useCartStore();
@@ -22,11 +23,13 @@ const CartPage = () => {
                 className="w-full flex md:flex-row flex-col items-center  gap-1 mb-5"
               >
                 <div className="flex w-[90%] md:w-full gap-3 items-center">
-                  <img
-                    src={domain + item.img?.url}
-                    alt={item.name}
-                    className="w-25 h-25 md:w-30 md:h-30 object-contain"
-                  />
+                  <Link to={`/product/${item.id}`}>
+                    <img
+                      src={domain + item.img?.url}
+                      alt={item.name}
+                      className="w-25 h-25 md:w-30 md:h-30 object-contain"
+                    />
+                  </Link>
                   <div>
                     <h3 className="font-semibold">{item.name}</h3>
                     <h4>{item.description}</h4>

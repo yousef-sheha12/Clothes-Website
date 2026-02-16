@@ -11,6 +11,7 @@ import CartPage from "./pages/CartPage";
 
 import Page404 from "./pages/Page404";
 import Favorites from "./components/Favorites";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/product/:id" element={<ProductDetailsPage />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
           <Footer />

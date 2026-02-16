@@ -13,7 +13,6 @@ const Favorites = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="container mx-auto max-w-6xl">
-        {/* Header Section */}
         <header className="text-center mb-12">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -26,7 +25,6 @@ const Favorites = () => {
         </header>
 
         {favorites.length === 0 ? (
-          /* Empty State */
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -47,12 +45,11 @@ const Favorites = () => {
             </Link>
           </motion.div>
         ) : (
-          /* Favorites Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence>
               {favorites.map((item) => (
                 <motion.div
-                  key={item.id} // استخدام item.id المخزن في الـ store
+                  key={item.id}
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -63,13 +60,14 @@ const Favorites = () => {
                   }}
                   className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
                 >
-                  {/* Image Container */}
                   <div className="relative group h-64 bg-gray-50 flex items-center justify-center p-6">
-                    <img
-                      src={domain + item.img?.url}
-                      alt={item.name}
-                      className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300"
-                    />
+                    <Link to={`/product/${item.id}`}>
+                      <img
+                        src={domain + item.img?.url}
+                        alt={item.name}
+                        className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300"
+                      />
+                    </Link>
                     <button
                       onClick={() => removeFromFav(item.id)}
                       className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-colors shadow-sm"
@@ -78,12 +76,11 @@ const Favorites = () => {
                     </button>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6 flex flex-col flex-grow">
+                  <div className="p-6 flex flex-col grow">
                     <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-1">
                       {item.name}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-4 line-clamp-2 flex-grow">
+                    <p className="text-sm text-gray-500 mb-4 line-clamp-2 grow">
                       {item.description}
                     </p>
 

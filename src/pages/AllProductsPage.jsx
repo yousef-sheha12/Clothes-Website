@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useFavoriteStore } from "../store";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const AllProductsPage = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const AllProductsPage = () => {
       .get(url)
       .then((res) => {
         setProduct(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -52,11 +53,13 @@ const AllProductsPage = () => {
                   className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-5 rounded-2xl"
                 >
                   <div className="flex justify-center items-center my-4">
-                    <img
-                      src={domain + el.img?.url}
-                      alt={el.name}
-                      className="w-35 h-50"
-                    />
+                    <Link to={`/product/${el.documentId}`}>
+                      <img
+                        src={domain + el.img[0]?.url}
+                        alt={el.name}
+                        className="w-35 h-50"
+                      />
+                    </Link>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground h-10 md:h-12 overflow-hidden">
@@ -81,7 +84,7 @@ const AllProductsPage = () => {
                       Add To Cart
                     </button>
                     <button
-                      className="btn bg-gradient-to-r from-blue-600 to-purple-600 border-none"
+                      className="btn bg-linear-to-r from-blue-600 to-purple-600 border-none"
                       onClick={() => {
                         toast.success("Favorite updated");
                         toggleFavorite(el);
