@@ -8,163 +8,129 @@ import { FaInstagram, FaRegHeart } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
 import { useCartStore, useFavoriteStore } from "../store";
+import { useTranslation } from "react-i18next";
+
 const Navbar = () => {
   const [openModle, setOpen] = useState(false);
-
   const navigate = useNavigate();
-
   const cartCount = useCartStore((state) => state.cartCount());
   const favCount = useFavoriteStore((state) => state.favCount());
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     document.body.style.overflow = openModle ? "hidden" : "auto";
   }, [openModle]);
 
+  useEffect(() => {
+    const dir = i18n.language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = dir;
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
   return (
     <>
-      {/* ===== Navbar ===== */}
-      <div className="w-full h-[70px] flex justify-center items-center bg-white text-black sticky top-0 z-50 shadow">
-        <div className="w-[75%] flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/" className="text-3xl flex items-end gap-3 font-bold">
-            Falcon
+      <div className="w-full h-[70px] flex justify-center items-center bg-white/90 backdrop-blur-md border-b sticky top-0 z-40">
+        <div className="w-[90%] md:w-[75%] flex justify-between items-center">
+          <Link to="/" className="text-3xl flex items-end gap-2 font-bold">
+            {t("logoName")}
             <span className="text-base text-gray-400 hidden md:flex font-medium">
-              clothes brand
+              {t("logoSubtitle")}
             </span>
           </Link>
 
-          {/* Desktop Links */}
           <div className="hidden md:flex gap-8 font-semibold">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/">{t("home")}</Link>
+            <Link to="/about">{t("about")}</Link>
+            <Link to="/contact">{t("contactUs")}</Link>
           </div>
 
-          {/* Icons */}
-          <div className="flex items-center gap-4">
-            <BiCartAdd
-              className="cursor-pointer"
-              size={30}
+          <div className="flex items-center gap-5">
+            <div
+              className="relative cursor-pointer"
               onClick={() => navigate("/cart")}
-            />
-            {favCount > 0 && (
-              <span className="absolute top-2 right-22 md:right-24 lg:right-45 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {favCount}
-              </span>
-            )}
-            <FaRegHeart
-              className="cursor-pointer"
-              size={30}
-              onClick={() => navigate("/favorites")}
-            />
-            {cartCount > 0 && (
-              <span className="absolute top-2 right-34 md:right-35 lg:right-57 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-            {/* Hamburger */}
-            <button
-              onClick={() => setOpen(true)}
-              className="md:hidden cursor-pointer"
             >
-              <Menu size={28} />
+              <BiCartAdd size={26} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </div>
+
+            <div
+              className="relative cursor-pointer"
+              onClick={() => navigate("/favorites")}
+            >
+              <FaRegHeart size={24} />
+              {favCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {favCount}
+                </span>
+              )}
+            </div>
+
+            <button
+              onClick={() =>
+                i18n.changeLanguage(i18n.language === "en" ? "ar" : "en")
+              }
+              className="px-3 py-1 border rounded-md text-sm font-semibold"
+            >
+              {i18n.language === "en" ? "AR" : "EN"}
+            </button>
+
+            <button onClick={() => setOpen(true)} className="md:hidden">
+              <Menu size={26} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* ===== Full Screen Menu ===== */}
       <AnimatePresence>
         {openModle && (
           <motion.div
             initial={{ y: "-100%" }}
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-white text-black z-[100]"
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center gap-8 text-2xl font-semibold"
           >
-            {/* Close */}
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-6 right-6 cursor-pointer"
+              className="absolute top-6 right-6"
             >
-              <X size={32} />
+              <X size={30} />
             </button>
 
-            <Link
-              to="/"
-              className="text-3xl flex items-end gap-3 font-bold absolute left-5 top-10 w-full border-b-gray-400"
-            >
-              Falcon
-              <span className="text-base text-gray-400 flex font-medium">
-                clothes brand
-              </span>
+            <Link onClick={() => setOpen(false)} to="/">
+              {t("home")}
             </Link>
-            {/* Menu Links */}
-            <div className="flex flex-col h-full items-center gap-7 text-2xl font-semibold absolute left-10 top-35">
-              <Link onClick={() => setOpen(false)} to="/">
-                Home
-              </Link>
-              <Link onClick={() => setOpen(false)} to="/about">
-                About
-              </Link>
-              <Link onClick={() => setOpen(false)} to="/contact">
-                Contact Us
-              </Link>
-            </div>
-            <div className="flex justify-center items-center gap-3 p-3 absolute left-40 top-80 ">
-              <h1>Follow Us</h1>
+
+            <Link onClick={() => setOpen(false)} to="/about">
+              {t("about")}
+            </Link>
+
+            <Link onClick={() => setOpen(false)} to="/contact">
+              {t("contactUs")}
+            </Link>
+
+            <div className="flex items-center gap-6 mt-10 text-xl">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
               >
-                <div className="bg-white rounded-full p-2">
-                  <Link to="">
-                    {" "}
-                    <FaInstagram
-                      size={20}
-                      className="text-black cursor-pointer"
-                    />
-                  </Link>
-                </div>
+                <FaInstagram />
               </motion.div>
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
               >
-                <div className="bg-white rounded-full p-2">
-                  <Link to="">
-                    <FaFacebookSquare
-                      size={20}
-                      className="text-black cursor-pointer"
-                    />
-                  </Link>
-                </div>
+                <FaFacebookSquare />
               </motion.div>
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
               >
-                <div className="bg-white rounded-full p-2 ">
-                  <Link to="">
-                    <AiFillTikTok
-                      size={20}
-                      className="text-black cursor-pointer"
-                    />
-                  </Link>
-                </div>
+                <AiFillTikTok />
               </motion.div>
             </div>
           </motion.div>

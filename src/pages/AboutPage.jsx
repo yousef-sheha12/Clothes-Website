@@ -2,105 +2,75 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const AboutPage = () => {
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === "ar";
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    toast.success("About Page");
-  }, []);
+    toast.success(t("aboutPage"));
+  }, [t]);
+
   return (
-    <div className="w-full h-vh animate__animated animate__fadeInLeft animate__fadeInLeft">
+    <div className="w-full min-h-screen" dir={isRtl ? "rtl" : "ltr"}>
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ transition: { duration: 5 } }}
-        whileInView={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
         <div className="bg-white p-4">
-          <h1 className="text-center text-3xl font-bold animate__animated animate__fadeInUp animate__fadeInUpBig">
-            About Us
+          <h1 className="text-center text-3xl font-bold animate__animated animate__fadeInUp mb-10">
+            {t("about")}
           </h1>
 
-          <div className="p-6 max-w-3xl mx-auto leading-relaxed text-gray-800">
-            <h1 className="text-3xl font-bold mb-4 text-center">
-              سياسة الخصوصية
-            </h1>
-
-            <p className="mb-4">
-              نرحب بك في متجر الملابس الإلكتروني الخاص بنا. نحن نهتم بخصوصيتك
-              ونحرص على حماية بياناتك الشخصية. توضح هذه السياسة كيف نقوم بجمع
-              بياناتك واستخدامها وحمايتها.
-            </p>
-
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              1. البيانات التي نقوم بجمعها
+          <div className="p-6 max-w-3xl mx-auto leading-relaxed text-gray-800 border rounded-xl shadow-sm">
+            <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
+              {t("privacyPolicy")}
             </h2>
-            <ul className="list-disc pl-6 mb-4">
-              <li>الاسم الكامل</li>
-              <li>البريد الإلكتروني</li>
-              <li>رقم الهاتف</li>
-              <li>عنوان الشحن</li>
-              <li>معلومات الدفع (لا نخزن بيانات البطاقة مباشرة)</li>
-              <li>سجل الطلبات وتفضيلات المنتجات</li>
+
+            <p className="mb-6">{t("privacyIntro")}</p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("dataCollectTitle")}
+            </h3>
+            <ul className={`list-disc ${isRtl ? "pr-6" : "pl-6"} mb-4`}>
+              <li>{t("fullName")}</li>
+              <li>{t("email")}</li>
+              <li>{t("phone")}</li>
+              <li>{t("address")}</li>
             </ul>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              2. كيفية استخدام البيانات
-            </h2>
-            <ul className="list-disc pl-6 mb-4">
-              <li>إتمام عمليات الشراء.</li>
-              <li>إرسال تحديثات الطلب.</li>
-              <li>تحسين تجربة التسوق.</li>
-              <li>إرسال عروض خاصة (اختياري).</li>
-            </ul>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("dataUsageTitle")}
+            </h3>
+            <p className="mb-4">{t("fashionDescription")}</p>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              3. حماية البيانات
-            </h2>
-            <p className="mb-4">
-              نتخذ كافة الإجراءات اللازمة لحماية بياناتك من الوصول غير المصرح به
-              أو التعديل أو الإفشاء.
-            </p>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("dataProtectTitle")}
+            </h3>
+            <p className="mb-4">{t("dataProtectDesc")}</p>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              4. مشاركة البيانات
-            </h2>
-            <p className="mb-4">
-              لا نقوم بمشاركة بياناتك مع أي طرف ثالث إلا في الحالات الضرورية مثل
-              شركات الشحن أو مزودي الدفع.
-            </p>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("dataSharingTitle")}
+            </h3>
+            <p className="mb-4">{t("dataSharingDesc")}</p>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              5. ملفات تعريف الارتباط (Cookies)
-            </h2>
-            <p className="mb-4">
-              نستخدم ملفات الارتباط لتحسين سرعة الموقع وخدمة المستخدم. يمكنك
-              تعطيلها من إعدادات المتصفح.
-            </p>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("cookiesTitle")}
+            </h3>
+            <p className="mb-4">{t("cookiesDesc")}</p>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              6. حقوق المستخدم
-            </h2>
-            <ul className="list-disc pl-6 mb-4">
-              <li>الاطلاع على بياناتك.</li>
-              <li>طلب تعديل أو حذف بياناتك.</li>
-              <li>إلغاء الاشتراك من الرسائل التسويقية.</li>
-            </ul>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("userRightsTitle")}
+            </h3>
+            <p className="mb-4">{t("policyChangesDesc")}</p>
 
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              7. التعديلات على السياسة
-            </h2>
-            <p className="mb-4">
-              قد نقوم بتحديث هذه السياسة من وقت لآخر. سيتم نشر أي تغيير هنا
-              فورًا.
-            </p>
-
-            <h2 className="text-xl font-semibold mt-6 mb-2 animate__animated animate__fadeInRight animate__fadeInRight">
-              8. تواصل معنا
-            </h2>
-            <p className="mb-4">
-              إذا كان لديك أي سؤال بخصوص سياسة الخصوصية يمكنك التواصل معنا عبر
-              البريد الإلكتروني: support@example.com
-            </p>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              {t("contactUsSection")}
+            </h3>
+            <p className="mb-4">{t("contactUsEmail")}</p>
           </div>
         </div>
       </motion.div>

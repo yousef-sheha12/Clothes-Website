@@ -4,11 +4,14 @@ import { FaTrash, FaShoppingCart, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 const Favorites = () => {
   const { favorites, removeFromFav } = useFavoriteStore();
   const { addToCart } = useCartStore();
   const { openCart } = cartIndex();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
@@ -19,7 +22,7 @@ const Favorites = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl font-extrabold text-gray-900 mb-2"
           >
-            منتجاتي المفضلة
+            {t("myFavoriteProducts")}
           </motion.h1>
           <div className="h-1 w-20 bg-red-500 mx-auto rounded-full"></div>
         </header>
@@ -32,88 +35,93 @@ const Favorites = () => {
           >
             <FaHeart className="text-gray-300 text-8xl mb-4" />
             <h2 className="text-2xl font-semibold text-gray-600">
-              قائمة المفضلة فارغة
+              {t("favoritesListEmpty")}
             </h2>
-            <p className="text-gray-400 mt-2 mb-6">
-              يبدو أنك لم تضف أي منتجات بعد!
-            </p>
+            <p className="text-gray-400 mt-2 mb-6">{t("noProductsAdded")}</p>
             <Link
               to="/"
               className="btn btn-primary bg-black hover:bg-gray-800 border-none px-8"
             >
-              تصفح المنتجات
+              {t("browseProducts")}
             </Link>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence>
-              {favorites.map((item) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.5,
-                    transition: { duration: 0.2 },
-                  }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
-                >
-                  <div className="relative group h-64 bg-gray-50 flex items-center justify-center p-6">
-                    <Link to={`/product/${item.id}`}>
-                      <img
-                        src={domain + item.img?.url}
-                        alt={item.name}
-                        className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </Link>
-                    <button
-                      onClick={() => removeFromFav(item.id)}
-                      className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-colors shadow-sm"
-                    >
-                      <FaTrash size={16} className="cursor-pointer" />
-                    </button>
-                  </div>
-
-                  <div className="p-6 flex flex-col grow">
-                    <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-1">
-                      {item.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-4 line-clamp-2 grow">
-                      {item.description}
-                    </p>
-
-                    <div className="flex items-center justify-between mt-auto">
-                      <div>
-                        <span className="text-2xl font-bold text-red-600">
-                          {item.newPrice || item.price} EGP
-                        </span>
-                        {item.newPrice && (
-                          <span className="block text-xs text-gray-400 line-through">
-                            {item.price} EGP
-                          </span>
-                        )}
-                      </div>
-
+              {favorites.map((item) => {
+                const imageUrl = Array.isArray(item.img)
+                  ? item.img[0]?.url
+                  : item.img?.url;
+                return (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.5,
+                      transition: { duration: 0.2 },
+                    }}
+                    className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100 flex flex-col"
+                  >
+                    <div className="relative group h-64 bg-gray-50 flex items-center justify-center p-6">
+                      <Link to={`/product/${item.id}`}>
+                        <img
+                          src={domain + imageUrl}
+                          alt={item.name}
+                          className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300"
+                        />
+                      </Link>
                       <button
-                        onClick={() => {
-                          addToCart(
-                            item.documentId
-                              ? item
-                              : { ...item, documentId: item.id },
-                          );
-                          openCart();
-                        }}
-                        className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors"
+                        onClick={() => removeFromFav(item.id)}
+                        className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-colors shadow-sm"
                       >
-                        <FaShoppingCart size={14} />
-                        <span className="text-sm font-medium">أضف للسلة</span>
+                        <FaTrash size={16} className="cursor-pointer" />
                       </button>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+
+                    <div className="p-6 flex flex-col grow">
+                      <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-1">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-4 line-clamp-2 grow">
+                        {item.description}
+                      </p>
+
+                      <div className="flex items-center justify-between mt-auto">
+                        <div>
+                          <span className="text-2xl font-bold text-red-600">
+                            {item.newPrice || item.price} EGP
+                          </span>
+                          {item.newPrice && (
+                            <span className="block text-xs text-gray-400 line-through">
+                              {item.oldPrice || item.price} EGP
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => {
+                            addToCart(item);
+
+                            removeFromFav(item.id);
+
+                            toast.success(t("addedToCart"));
+                            openCart();
+                          }}
+                          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors"
+                        >
+                          <FaShoppingCart size={14} />
+                          <span className="text-sm font-medium">
+                            {t("addToCart")}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         )}

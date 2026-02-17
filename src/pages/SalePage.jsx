@@ -8,21 +8,26 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useFavoriteStore } from "../store";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SalePage = () => {
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === "ar";
   const [timeLeft, setTimeLeft] = useState({
     hours: 24,
     minutes: 0,
     seconds: 0,
   });
+  const [product, setProduct] = useState([]);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const { openCart } = cartIndex();
+  const { favorites, toggleFavorite } = useFavoriteStore();
 
   useEffect(() => {
     const targetTime = new Date().getTime() + 24 * 60 * 60 * 1000;
-
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const difference = targetTime - now;
-
       if (difference <= 0) {
         clearInterval(timer);
         setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
@@ -34,151 +39,114 @@ const SalePage = () => {
         });
       }
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const addToCart = useCartStore((state) => state.addToCart);
-  const { openCart } = cartIndex();
-  const { favorites, toggleFavorite } = useFavoriteStore();
-  const [sale, setSale] = useState([]);
-
-  useEffect(() => {
     axios
       .get(`${domain}/api/sales?populate=*`)
-      .then((res) => setSale(res.data.data))
+      .then((res) => setProduct(res.data.data))
       .catch((err) => console.log(err));
   }, []);
 
   return (
-    <div id="sale" className="w-full h-full lg:min-h-screen">
-      <div className="bg-linear-to-r from-red-600 to-orange-500 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              >
-                <GoZap className="h-10 w-10 text-yellow-300 shadow-2xl" />
-              </motion.div>
-              <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter">
-                FLASH SALE
+    <div
+      id="sale"
+      className="w-full bg-white py-16 bg-linear-to-r from-red-600 to-orange-500"
+      dir={isRtl ? "rtl" : "ltr"}
+    >
+      <div className="container mx-auto px-4  ">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6 bg-red-50 p-8 rounded-3xl border border-red-100">
+          <div className="flex items-center gap-4">
+            <div className="bg-red-600 p-3 rounded-2xl text-white animate-pulse">
+              <GoZap size={32} />
+            </div>
+            <div>
+              <h2 className="text-3xl font-black text-gray-900 tracking-tight">
+                {t("flashSale")}
               </h2>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              >
-                <GoZap className="h-10 w-10 text-yellow-300 shadow-2xl" />
-              </motion.div>
+              <p className="text-red-600 font-medium">{t("endsIn24Hours")}</p>
             </div>
-
-            <div className="flex justify-center gap-4 mb-8">
-              {[
-                { label: "HRS", value: timeLeft.hours },
-                { label: "MIN", value: timeLeft.minutes },
-                { label: "SEC", value: timeLeft.seconds },
-              ].map((unit, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <div className="bg-white/20 backdrop-blur-md rounded-xl p-4 min-w-[70px] border border-white/30 shadow-xl">
-                    <span className="text-3xl font-mono font-bold">
-                      {unit.value.toString().padStart(2, "0")}
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-bold mt-2 opacity-80 uppercase tracking-widest">
-                    {unit.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-red-100 text-lg font-medium opacity-90">
-              Ends in 24 hours! Don't miss out on the best deals.
-            </p>
           </div>
+          <div className="flex gap-4">
+            {[
+              { label: t("hrs"), value: timeLeft.hours },
+              { label: t("min"), value: timeLeft.minutes },
+              { label: t("sec"), value: timeLeft.seconds },
+            ].map((unit, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className="bg-white w-16 h-16 rounded-2xl shadow-sm flex items-center justify-center text-2xl font-black text-gray-900 border border-red-100">
+                  {unit.value.toString().padStart(2, "0")}
+                </div>
+                <span className="text-[10px] font-bold text-red-400 mt-2 uppercase tracking-widest">
+                  {unit.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {sale?.map((el) => {
-              const isFav = favorites.some(
-                (f) => f.documentId === el.documentId,
-              );
-              const imgUrl = Array.isArray(el.img)
-                ? el.img[0]?.url
-                : el.img?.url;
-
-              return (
-                <div
-                  key={el.documentId}
-                  className="group bg-white text-black rounded-3xl p-4 flex flex-col hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-all duration-500 relative overflow-hidden"
-                >
-                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg z-10">
-                    -50% OFF
-                  </div>
-
-                  <Link
-                    to={`/product/${el.documentId}`}
-                    className="relative aspect-square mb-4 overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center"
-                  >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {product.map((el) => {
+            const isFav = favorites.some((fav) => fav.id === el.documentId);
+            const imgUrl = Array.isArray(el.img) ? el.img[0]?.url : el.img?.url;
+            return (
+              <div
+                key={el.documentId}
+                className="group bg-white rounded-3xl border border-gray-100 hover:border-red-200 transition-all duration-500 hover:shadow-2xl hover:shadow-red-100/50 overflow-hidden"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <Link to={`/product/${el.documentId}`}>
                     <img
                       src={domain + imgUrl}
                       alt={el.name}
-                      className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   </Link>
-
-                  <div className="flex-1 flex flex-col">
-                    <h3 className="font-bold text-gray-800 mb-1 line-clamp-1">
-                      {el.name}
-                    </h3>
-                    <p className="text-xs text-gray-400 mb-3 line-clamp-2 leading-relaxed">
-                      {el.description}
-                    </p>
-
-                    <div className="mt-auto">
-                      <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-xl font-black text-red-600">
-                          {el.newPrice} EGP
-                        </span>
-                        <span className="text-xs text-gray-400 line-through font-medium">
-                          {el.oldPrice} EGP
-                        </span>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                            addToCart(el);
-                            toast.success("Added!");
-                            openCart();
-                          }}
-                          className="flex-1 bg-black text-white py-3 rounded-xl text-xs font-bold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
-                        >
-                          Add To Cart
-                        </button>
-                        <button
-                          onClick={() => {
-                            toggleFavorite(el);
-                            toast.success("Updated!");
-                          }}
-                          className={`p-3 rounded-xl border transition-all ${isFav ? "bg-red-50 border-red-500 text-red-500" : "bg-gray-50 border-gray-100 text-gray-400 hover:border-black"}`}
-                        >
-                          {isFav ? <FaHeart /> : <FaRegHeart />}
-                        </button>
-                      </div>
-                    </div>
+                  <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-black tracking-tighter">
+                    {t("discount")}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 truncate">
+                    {el.name}
+                  </h3>
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="text-2xl font-black text-red-600">
+                      {el.newPrice} {t("egp")}
+                    </span>
+                    <span className="text-sm text-gray-400 line-through font-medium">
+                      {el.oldPrice} {t("egp")}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        addToCart(el);
+                        toast.success(t("added"));
+                        openCart();
+                      }}
+                      className="flex-1 bg-black text-white py-3 rounded-xl text-xs font-bold hover:bg-red-600 transition-colors"
+                    >
+                      {t("addToCart")}
+                    </button>
+                    <button
+                      onClick={() => {
+                        toggleFavorite(el);
+                        toast.success(t("updated"));
+                      }}
+                      className={`p-3 rounded-xl border transition-all ${isFav ? "bg-red-50 border-red-500 text-red-500" : "bg-gray-50 border-gray-100 text-gray-400"}`}
+                    >
+                      {isFav ? <FaHeart /> : <FaRegHeart />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 };
-
 export default SalePage;

@@ -10,33 +10,34 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const ContactPage = () => {
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === "ar";
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    toast.success("Contact Page");
-  }, []);
+    toast.success(t("contactPage"));
+  }, [t]);
+
   const handleSubmit = () => {
-    toast.success("success,your message sent");
+    toast.success(t("successMessage"));
   };
+
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-
+    name: Yup.string().required(t("nameRequired")),
+    email: Yup.string().email(t("invalidEmail")).required(t("emailRequired")),
     phone: Yup.string()
-      .matches(/^[0-9]{11}$/, "Phone must be 11 digits")
-      .required("Phone is required"),
-
+      .matches(/^[0-9]{11}$/, t("phoneDigits"))
+      .required(t("phoneRequired")),
     text: Yup.string(),
-
-    address: Yup.string().required("Address is required"),
-    city: Yup.string().required("City is required"),
+    address: Yup.string().required(t("addressRequired")),
+    city: Yup.string().required(t("cityRequired")),
   });
+
   return (
-    <div className="w-full h-vh p-4 ">
+    <div className="w-full h-vh p-4 " dir={isRtl ? "rtl" : "ltr"}>
       <div className="flex flex-col md:flex-row  justify-center gap-10 items-center">
         <div className="form animate__animated animate__fadeInUp animate__fadeInUpBig animate__delay-1s">
           <h1 className="text-4xl text-black text-center py-5 font-bold animate__animated animate__fadeInUp animate__fadeInUpBig">
@@ -45,7 +46,7 @@ const ContactPage = () => {
               transition={{ duration: 3 }}
               whileInView={{ opacity: 1 }}
             >
-              Contact Us
+              {t("contactUs")}
             </motion.div>
           </h1>
           <Formik
@@ -61,16 +62,14 @@ const ContactPage = () => {
             onSubmit={handleSubmit}
           >
             <Form className="flex flex-col gap-5 bg-gray-900 p-5 w-100">
-              <h1 className="text-gray-400 text-center">
-                You Can Send Your Message and we call you as soon as possible
-              </h1>
+              <h1 className="text-gray-400 text-center">{t("sendMessage")}</h1>
               <div>
-                <label className="text-white">Name</label>
+                <label className="text-white">{t("name")}</label>
                 <Field
                   name="name"
                   type="text"
                   className="input w-full bg-white text-black"
-                  placeholder="Enter your name"
+                  placeholder={t("enterYourName")}
                 />
                 <ErrorMessage
                   name="name"
@@ -80,12 +79,12 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="text-white">Email</label>
+                <label className="text-white">{t("email")}</label>
                 <Field
                   name="email"
                   type="email"
                   className="input w-full bg-white text-black"
-                  placeholder="Enter your email"
+                  placeholder={t("enterYourEmail")}
                 />
                 <ErrorMessage
                   name="email"
@@ -95,12 +94,12 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="text-white">Phone</label>
+                <label className="text-white">{t("phone")}</label>
                 <Field
                   name="phone"
                   type="text"
                   className="input w-full bg-white text-black"
-                  placeholder="Enter your phone"
+                  placeholder={t("enterYourPhone")}
                 />
                 <ErrorMessage
                   name="phone"
@@ -110,12 +109,12 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="text-white">Message</label>
+                <label className="text-white">{t("message")}</label>
                 <Field
                   as="textarea"
                   name="text"
                   className="w-full bg-white text-black p-5"
-                  placeholder="Type your message"
+                  placeholder={t("typeYourMessage")}
                 />
                 <ErrorMessage
                   name="text"
@@ -125,7 +124,7 @@ const ContactPage = () => {
               </div>
 
               <button type="submit" className="btn btn-success">
-                Submit
+                {t("submit")}
               </button>
             </Form>
           </Formik>
@@ -137,7 +136,7 @@ const ContactPage = () => {
               transition={{ duration: 3 }}
               whileInView={{ opacity: 1 }}
             >
-              Shipping Information
+              {t("shippingInformation")}
             </motion.div>
           </h1>
           <Formik
@@ -149,16 +148,14 @@ const ContactPage = () => {
             onSubmit={handleSubmit}
           >
             <Form className="flex flex-col gap-5 bg-gray-900 p-5 w-100">
-              <h1 className="text-gray-400 text-center">
-                You Can Send Your Message and we call you as soon as possible
-              </h1>
+              <h1 className="text-gray-400 text-center">{t("sendMessage")}</h1>
               <div>
-                <label className="text-white">Address</label>
+                <label className="text-white">{t("address")}</label>
                 <Field
                   name="address"
                   type="text"
                   className="input w-full bg-white text-black"
-                  placeholder="Enter your address"
+                  placeholder={t("enterYourAddress")}
                 />
                 <ErrorMessage
                   name="address"
@@ -167,12 +164,12 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label className="text-white">City</label>
+                <label className="text-white">{t("city")}</label>
                 <Field
                   name="city"
                   type="text"
                   className="input w-full bg-white text-black"
-                  placeholder="Enter your city"
+                  placeholder={t("enterYourCity")}
                 />
                 <ErrorMessage
                   name="city"
@@ -182,7 +179,7 @@ const ContactPage = () => {
               </div>
 
               <button type="submit" className="btn btn-success">
-                Submit
+                {t("submit")}
               </button>
             </Form>
           </Formik>
@@ -211,7 +208,7 @@ const ContactPage = () => {
                 <Mail size={30} className="text-indigo-600" />
               </motion.div>
               <div>
-                <p>Email</p>
+                <p>{t("emailLabel")}</p>
                 <h1 className="font-bold">joesheha8757@gmail.com</h1>
               </div>
             </div>
@@ -234,7 +231,7 @@ const ContactPage = () => {
                 <Phone size={30} className="text-indigo-600" />
               </motion.div>
               <div>
-                <p>Phone</p>
+                <p>{t("phoneLabel")}</p>
                 <h1 className="font-bold">+201092632833</h1>
               </div>
             </div>
@@ -257,12 +254,12 @@ const ContactPage = () => {
                 <MapPin size={30} className="text-indigo-600" />
               </motion.div>
               <div>
-                <p>Location</p>
+                <p>{t("locationLabel")}</p>
                 <h1 className="font-bold">Menoufia , Egypt</h1>
               </div>
             </div>
             <div className="flex justify-center items-center gap-3 p-3">
-              <h1>Follow Us</h1>
+              <h1>{t("followUs")}</h1>
               <div className="bg-white rounded-full p-2">
                 <Link to="">
                   <FaInstagram

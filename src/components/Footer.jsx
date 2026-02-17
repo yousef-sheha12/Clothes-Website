@@ -5,32 +5,31 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillTikTok } from "react-icons/ai";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <div className="w-full h-vh bg-gray-900 text-white  mt-10 flex flex-col gap-10">
       <div className=" flex flex-col md:flex-row  justify-between gap-10 items-center p-5 px-10 overflow-auto">
         <div className="logo">
           <Link to="/" className="text-3xl flex items-end gap-3 font-bold">
-            Falcon
+            {t("logoName")}
             <span className="text-base text-gray-400  font-medium">
-              clothes brand
+              {t("logoSubtitle")}
             </span>
           </Link>
-          <p className="w-70 text-gray-100">
-            Your one-stop destination for trendy and affordable clothing.
-            Quality fashion for everyone.
-          </p>
+          <p className="w-70 text-gray-100">{t("footerDescription")}</p>
         </div>
         <div className="flex gap-6 text-center md:flex">
           <div className=" flex md:flex gap-6 md:gap-6 lg:gap-8 font-semibold ">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/">{t("home")}</Link>
+            <Link to="/about">{t("about")}</Link>
+            <Link to="/contact">{t("contactUs")}</Link>
           </div>
           <div className="flex md:flex gap-6 md:gap-6 lg:gap-8 font-semibold ">
-            <a href="#sale">Sale</a>
-            <a href="#collection"> All Collection</a>
+            <a href="#sale">{t("sale")}</a>
+            <a href="#collection">{t("allCollection")}</a>
           </div>
         </div>
       </div>
@@ -82,16 +81,11 @@ const Footer = () => {
         </motion.div>
       </div>
       <div className=" flex justify-center ">
-        <p className="font-semibold p-5 text-gray-300">
-          You can exchange or return the item within 14 days, and you have a
-          one-month warranty
-        </p>
+        <p className="font-semibold p-5 text-gray-300">{t("exchangeReturn")}</p>
       </div>
       <div className="flex flex-col md:flex-row justify-center gap-10 items-center p-5 ">
-        <p className="text-gray-300 text-sm">Made with ❤️ for fashion lovers</p>
-        <p className="text-gray-300 text-sm">
-          © 2025 Falgon Clothes. All rights reserved.
-        </p>
+        <p className="text-gray-300 text-sm">{t("madeWithLove")}❤️ </p>
+        <p className="text-gray-300 text-sm">{t("copyright")}</p>
       </div>
     </div>
   );
