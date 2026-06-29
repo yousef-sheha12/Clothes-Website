@@ -24,13 +24,13 @@ const AllProductsPage = () => {
 
   const [product, setProduct] = useState([]);
 
-  let endpoint = "/api/products?populate=*";
+  let endpoint = "/product";
   let url = domain + endpoint;
   useEffect(() => {
     axios
       .get(url)
       .then((res) => {
-        setProduct(res.data.data);
+        setProduct(res.data);
       })
       .catch((err) => console.log(err));
   }, [url]);
@@ -50,17 +50,17 @@ const AllProductsPage = () => {
           </h1>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {product?.map((el) => {
-              const isFav = favorites.find((f) => f.id === el.documentId);
+              const isFav = favorites.find((f) => f.id === el.id);
               const imageUrl = Array.isArray(el.img)
                 ? el.img[0]?.url
                 : el.img?.url;
               return (
                 <div
-                  key={el.documentId}
+                  key={el.id}
                   className="cart bg-white text-black hover:shadow-xl transition-shadow p-4 flex flex-col gap-5 rounded-2xl"
                 >
                   <div className="flex justify-center items-center my-4">
-                    <Link to={`/product/${el.documentId}`}>
+                    <Link to={`/product/${el.id}`}>
                       <img
                         src={domain + imageUrl}
                         alt={el.name}

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const domain = "http://localhost:1337";
+export const domain = "https://yousef1224-clothes.hf.space/api";
 
 export const cartIndex = create((set) => ({
   value: false,

@@ -33,15 +33,11 @@ export default function ProductDetailsPage() {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const salesRes = await axios.get(
-          `${domain}/api/sales?filters[documentId][$eq]=${id}&populate=*`,
-        );
-        let data = salesRes.data.data[0];
+        const salesRes = await axios.get(`${domain}/product/${id}`);
+        let data = salesRes.data;
         if (!data) {
-          const productsRes = await axios.get(
-            `${domain}/api/products?filters[documentId][$eq]=${id}&populate=*`,
-          );
-          data = productsRes.data.data[0];
+          const productsRes = await axios.get(`${domain}/product/${id}`);
+          data = productsRes.data;
         }
         setProduct(data);
 

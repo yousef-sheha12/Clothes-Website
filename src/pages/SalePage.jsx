@@ -44,8 +44,8 @@ const SalePage = () => {
 
   useEffect(() => {
     axios
-      .get(`${domain}/api/sales?populate=*`)
-      .then((res) => setProduct(res.data.data))
+      .get(`${domain}/product`)
+      .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -95,7 +95,7 @@ const SalePage = () => {
                 key={el.documentId}
                 className="group bg-white rounded-3xl border border-gray-100 hover:border-red-200 transition-all duration-500 hover:shadow-2xl hover:shadow-red-100/50 overflow-hidden"
               >
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-4/5 overflow-hidden">
                   <Link to={`/product/${el.documentId}`}>
                     <img
                       src={domain + imgUrl}
