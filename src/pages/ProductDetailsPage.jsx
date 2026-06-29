@@ -33,6 +33,7 @@ export default function ProductDetailsPage() {
     const fetchProduct = async () => {
       setLoading(true);
       try {
+        console.log("Full Request URL:", `${domain}/product/${id}`);
         const salesRes = await axios.get(`${domain}/product/${id}`);
         let data = salesRes.data;
         if (!data) {
@@ -40,11 +41,11 @@ export default function ProductDetailsPage() {
           data = productsRes.data;
         }
         setProduct(data);
+        console.log("Product Data Received:", data); // أضف هذا السطر
+        console.log("Images Array:", data.images);
 
-        if (data?.img) {
-          const firstImg = Array.isArray(data.img)
-            ? data.img[0]?.url
-            : data.img?.url;
+        if (data?.image) {
+          const firstImg = product.image;
           setSelectedImg(firstImg);
         }
       } catch (error) {
@@ -69,9 +70,7 @@ export default function ProductDetailsPage() {
       </div>
     );
 
-  const allImages = Array.isArray(product.image)
-    ? product.images.map((i) => i.url)
-    : [product.images?.url].filter(Boolean);
+  const allImages = product.images;
   const isFavorite = favorites.some((fav) => fav.id === product.id);
 
   return (
@@ -95,7 +94,11 @@ export default function ProductDetailsPage() {
                     key={selectedImg}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    src={domain + selectedImg}
+                    src={
+                      selectedImg?.startsWith("http")
+                        ? selectedImg
+                        : domain + selectedImg
+                    }
                     className="w-full h-full object-contain p-4"
                   />
                 </AnimatePresence>
@@ -106,15 +109,19 @@ export default function ProductDetailsPage() {
                   {allImages.map((imgUrl, index) => (
                     <button
                       key={index}
-                      onClick={() => setSelectedImg(imgUrl)}
+                      onClick={() => setSelectedImg(imgUrl.url)}
                       className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
-                        selectedImg === imgUrl
+                        selectedImg === imgUrl.url
                           ? "border-black scale-105 shadow-md"
                           : "border-transparent opacity-60"
                       }`}
                     >
                       <img
-                        src={allImages.image}
+                        src={
+                          imgUrl.url.startsWith("http")
+                            ? imgUrl.url
+                            : domain + imgUrl.url
+                        }
                         className="w-full h-full object-cover"
                       />
                     </button>
