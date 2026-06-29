@@ -69,10 +69,10 @@ export default function ProductDetailsPage() {
       </div>
     );
 
-  const allImages = Array.isArray(product.img)
-    ? product.img.map((i) => i.url)
-    : [product.img?.url].filter(Boolean);
-  const isFavorite = favorites.some((fav) => fav.id === product.documentId);
+  const allImages = Array.isArray(product.image)
+    ? product.images.map((i) => i.url)
+    : [product.images?.url].filter(Boolean);
+  const isFavorite = favorites.some((fav) => fav.id === product.id);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-12">
@@ -114,7 +114,7 @@ export default function ProductDetailsPage() {
                       }`}
                     >
                       <img
-                        src={domain + imgUrl}
+                        src={allImages.image}
                         className="w-full h-full object-cover"
                       />
                     </button>
@@ -126,7 +126,7 @@ export default function ProductDetailsPage() {
             <div className="p-8 lg:p-16 flex flex-col justify-center">
               <h1 className="text-4xl font-extrabold mb-4">{product.name}</h1>
               <div className="text-3xl font-black mb-6">
-                {product.newPrice || product.price} EGP
+                {product.newPrice || product.oldPrice} EGP
               </div>
               <p className="text-gray-500 text-lg mb-10">
                 {product.description}

@@ -51,9 +51,9 @@ const AllProductsPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {product?.map((el) => {
               const isFav = favorites.find((f) => f.id === el.id);
-              const imageUrl = Array.isArray(el.img)
-                ? el.img[0]?.url
-                : el.img?.url;
+              // const imageUrl = Array.isArray(el.image)
+              //   ? el.image[0]?.url
+              //   : el.image?.url;
               return (
                 <div
                   key={el.id}
@@ -61,11 +61,7 @@ const AllProductsPage = () => {
                 >
                   <div className="flex justify-center items-center my-4">
                     <Link to={`/product/${el.id}`}>
-                      <img
-                        src={domain + imageUrl}
-                        alt={el.name}
-                        className="w-35 h-50"
-                      />
+                      <img src={el.image} alt={el.name} className="w-35 h-50" />
                     </Link>
                   </div>
                   <div>
@@ -75,7 +71,7 @@ const AllProductsPage = () => {
                     <h1 className="font-medium mb-2 line-clamp-2">{el.name}</h1>
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-lg font-bold text-red-600">
-                        {t("price")} :{el.price} {t("egp")}
+                        {t("price")} :{el.oldPrice} {t("egp")}
                       </p>
                     </div>
                   </div>

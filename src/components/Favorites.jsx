@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { domain, useFavoriteStore, useCartStore, cartIndex } from "../store";
+import { useFavoriteStore, useCartStore, cartIndex } from "../store";
 import { FaTrash, FaShoppingCart, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
@@ -49,9 +49,9 @@ const Favorites = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence>
               {favorites.map((item) => {
-                const imageUrl = Array.isArray(item.img)
-                  ? item.img[0]?.url
-                  : item.img?.url;
+                // const imageUrl = Array.isArray(item.img)
+                //   ? item.img[0]?.url
+                //   : item.img?.url;
                 return (
                   <motion.div
                     key={item.id}
@@ -68,7 +68,7 @@ const Favorites = () => {
                     <div className="relative group h-64 bg-gray-50 flex items-center justify-center p-6">
                       <Link to={`/product/${item.id}`}>
                         <img
-                          src={domain + imageUrl}
+                          src={item.image}
                           alt={item.name}
                           className="max-h-full object-contain transform group-hover:scale-110 transition-transform duration-300"
                         />
@@ -92,11 +92,11 @@ const Favorites = () => {
                       <div className="flex items-center justify-between mt-auto">
                         <div>
                           <span className="text-2xl font-bold text-red-600">
-                            {item.newPrice || item.price} EGP
+                            {item.newPrice || item.oldPrice} EGP
                           </span>
                           {item.newPrice && (
                             <span className="block text-xs text-gray-400 line-through">
-                              {item.oldPrice || item.price} EGP
+                              {item.oldPrice || item.newPrice} EGP
                             </span>
                           )}
                         </div>

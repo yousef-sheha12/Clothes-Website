@@ -88,17 +88,19 @@ const SalePage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {product.map((el) => {
-            const isFav = favorites.some((fav) => fav.id === el.documentId);
-            const imgUrl = Array.isArray(el.img) ? el.img[0]?.url : el.img?.url;
+            const isFav = favorites.some((fav) => fav.id === el.id);
+            // const imgUrl = Array.isArray(el.image)
+            //   ? el.image[0]?.url
+            //   : el.image?.url;
             return (
               <div
-                key={el.documentId}
+                key={el.id}
                 className="group bg-white rounded-3xl border border-gray-100 hover:border-red-200 transition-all duration-500 hover:shadow-2xl hover:shadow-red-100/50 overflow-hidden"
               >
                 <div className="relative aspect-4/5 overflow-hidden">
-                  <Link to={`/product/${el.documentId}`}>
+                  <Link to={`/product/${el.id}`}>
                     <img
-                      src={domain + imgUrl}
+                      src={el.image}
                       alt={el.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

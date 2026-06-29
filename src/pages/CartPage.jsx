@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useCartStore, domain } from "../store";
+import { useCartStore } from "../store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -14,7 +14,7 @@ const CartPage = () => {
 
   const calculateTotal = () => {
     return cart.reduce(
-      (acc, item) => acc + item.quantity * (item.newPrice || item.price),
+      (acc, item) => acc + item.quantity * (item.newPrice || item.oldPrice),
       0,
     );
   };
@@ -37,9 +37,9 @@ const CartPage = () => {
         ) : (
           <div className="space-y-6">
             {cart.map((item) => {
-              const imageUrl = Array.isArray(item.img)
-                ? item.img[0]?.url
-                : item.img?.url;
+              // const imageUrl = Array.isArray(item.image)
+              //   ? item.img[0]?.url
+              //   : item.img?.url;
               return (
                 <div
                   key={item.id}
@@ -50,7 +50,7 @@ const CartPage = () => {
                     className="flex items-center gap-4"
                   >
                     <img
-                      src={domain + imageUrl}
+                      src={item.image}
                       alt={item.name}
                       className="w-32 h-32 object-contain"
                     />
@@ -61,7 +61,8 @@ const CartPage = () => {
                   </div>
                   <div className="font-bold">
                     {t("totalIs")}{" "}
-                    {item.quantity * (item.newPrice || item.price)} {t("egp")}
+                    {item.quantity * (item.newPrice || item.oldPrice)}{" "}
+                    {t("egp")}
                   </div>
                   <div className="flex items-center gap-3">
                     <button
