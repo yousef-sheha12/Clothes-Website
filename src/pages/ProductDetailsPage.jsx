@@ -94,11 +94,7 @@ export default function ProductDetailsPage() {
                     key={selectedImg}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    src={
-                      selectedImg?.startsWith("http")
-                        ? selectedImg
-                        : domain + selectedImg
-                    }
+                    src={selectedImg}
                     className="w-full h-full object-contain p-4"
                   />
                 </AnimatePresence>

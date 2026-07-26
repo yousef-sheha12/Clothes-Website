@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const domain = "https://yousef1224-clothes.hf.space/api";
+export const domain = import.meta.env.VITE_API_URL;
 
 export const cartIndex = create((set) => ({
   value: false,
