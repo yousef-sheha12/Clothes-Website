@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { GoZap } from "react-icons/go";
 import { cartIndex, useCartStore, domain } from "../store";
+import { mockProducts } from "../mockProducts";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -42,11 +43,22 @@ const SalePage = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // API (hf.space) is down - using frontend-only mock data
+  // Original: axios.get(`${domain}/product`).then((res) => setProduct(res.data)).catch((err) => console.log(err));
   useEffect(() => {
     axios
       .get(`${domain}/product`)
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+          setProduct(res.data);
+        } else {
+          setProduct(mockProducts);
+        }
+      })
+      .catch(() => {
+        console.log("[Mock] Using local products - API unavailable");
+        setProduct(mockProducts);
+      });
   }, []);
 
   return (

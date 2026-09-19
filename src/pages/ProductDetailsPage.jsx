@@ -12,6 +12,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { domain, useCartStore, useFavoriteStore, cartIndex } from "../store";
+import { mockProducts } from "../mockProducts";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
@@ -28,11 +29,14 @@ export default function ProductDetailsPage() {
   const { openCart } = cartIndex();
   const { favorites, toggleFavorite } = useFavoriteStore();
 
+  // API (hf.space) is down - using frontend-only mock data
+  // Original API call commented, fallback to mockProducts
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchProduct = async () => {
       setLoading(true);
       try {
+        // Try API first
         console.log("Full Request URL:", `${domain}/product/${id}`);
         const salesRes = await axios.get(`${domain}/product/${id}`);
         let data = salesRes.data;
@@ -40,16 +44,24 @@ export default function ProductDetailsPage() {
           const productsRes = await axios.get(`${domain}/product/${id}`);
           data = productsRes.data;
         }
-        setProduct(data);
-        console.log("Product Data Received:", data); // أضف هذا السطر
-        console.log("Images Array:", data.images);
-
-        if (data?.image) {
-          const firstImg = product.image;
-          setSelectedImg(firstImg);
+        if (data && data.id) {
+          setProduct(data);
+          if (data?.image) setSelectedImg(data.image);
+          if (data?.images?.[0]?.url) setSelectedImg(data.images[0].url);
+          return;
         }
-      } catch (error) {
-        console.error("Error:", error);
+        throw new Error("No data");
+      } catch {
+        // Fallback to mock data
+        console.log("[Mock] Using local product - API unavailable");
+        const mockProduct = mockProducts.find((p) => String(p.id) === String(id));
+        if (mockProduct) {
+          setProduct(mockProduct);
+          setSelectedImg(mockProduct.image);
+        } else {
+          setProduct(mockProducts[0]);
+          setSelectedImg(mockProducts[0].image);
+        }
       } finally {
         setLoading(false);
       }

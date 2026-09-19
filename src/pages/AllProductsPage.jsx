@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { cartIndex, useCartStore, domain } from "../store";
+import { mockProducts } from "../mockProducts";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -24,16 +25,32 @@ const AllProductsPage = () => {
 
   const [product, setProduct] = useState([]);
 
-  let endpoint = "/product";
-  let url = domain + endpoint;
+  // API (hf.space) is down - using frontend-only mock data
+  // Original API call (commented):
+  // let endpoint = "/product";
+  // let url = domain + endpoint;
+  // useEffect(() => {
+  //   axios.get(url).then((res) => setProduct(res.data)).catch((err) => console.log(err));
+  // }, [url]);
+
   useEffect(() => {
+    // Try API first, fallback to mock data if API fails
+    const endpoint = "/product";
+    const url = domain + endpoint;
     axios
       .get(url)
       .then((res) => {
-        setProduct(res.data);
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+          setProduct(res.data);
+        } else {
+          setProduct(mockProducts);
+        }
       })
-      .catch((err) => console.log(err));
-  }, [url]);
+      .catch(() => {
+        console.log("[Mock] Using local products - API unavailable");
+        setProduct(mockProducts);
+      });
+  }, []);
 
   return (
     <div id="collection" className="w-full h-full " dir={isRtl ? "rtl" : "ltr"}>
